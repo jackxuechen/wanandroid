@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Container, Header, Content, Footer, FooterTab, Button, Text } from 'native-base';
+import React, {Component} from 'react';
+import {Button, Container, Content, Footer, FooterTab, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import I18n from './src/locales/i18n'
+import I18n from './locales/i18n'
+
 export default class FooterTabsIconTextExample extends Component {
 
     render() {
         return (
             <Container>
-                <Header />
                 <Content />
                 <Footer>
                     <FooterTab>
@@ -21,7 +21,7 @@ export default class FooterTabsIconTextExample extends Component {
                         </Button>
                         <Button vertical active>
                             <Icon active name="navigate" />
-                            <Text>Navigate</Text>
+                            <Text>{I18n.t()}</Text>
                         </Button>
                         <Button vertical>
                             <Icon name="person" />
