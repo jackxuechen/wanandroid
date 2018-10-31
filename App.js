@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, Footer, FooterTab, Button, Icon, Text } from 'native-base';
+import { Container, Header, Content, Footer, FooterTab, Button, Text } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
 export default class FooterTabsIconTextExample extends Component {
 
     render() {
@@ -10,11 +11,11 @@ export default class FooterTabsIconTextExample extends Component {
                 <Footer>
                     <FooterTab>
                         <Button vertical>
-                            <Icon name="apps" />
+                            <Icon name="facebook-square" />
                             <Text>Apps</Text>
                         </Button>
                         <Button vertical>
-                            <Icon name="camera" />
+                            <Icon name="test" size={30} color="#4F8EF7"/>
                             <Text>Camera</Text>
                         </Button>
                         <Button vertical active>
