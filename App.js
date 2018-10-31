@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Footer, FooterTab, Button, Text } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
+import I18n from './src/locales/i18n'
 export default class FooterTabsIconTextExample extends Component {
 
     render() {
@@ -24,7 +25,7 @@ export default class FooterTabsIconTextExample extends Component {
                         </Button>
                         <Button vertical>
                             <Icon name="person" />
-                            <Text>Contact</Text>
+                            <Text>{I18n.t('blog')}</Text>
                         </Button>
                     </FooterTab>
                 </Footer>
