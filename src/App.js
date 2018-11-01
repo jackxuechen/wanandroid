@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, Container, Footer, FooterTab, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import I18n from './locales/i18n'
-import BlogFragment from "./fragment/BlogFragment";
+import BlogScreen from "./Screen/BlogScreen";
 
 export default class App extends Component {
 
@@ -19,7 +19,7 @@ export default class App extends Component {
     render() {
         return (
             <Container>
-                <BlogFragment/>
+                <BlogScreen/>
                 <Footer>
                     <FooterTab>
                         <Button

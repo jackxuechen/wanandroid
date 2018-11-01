@@ -4,7 +4,7 @@ import Swiper from 'react-native-swiper';
 import {Body, Header, Left, Right, Title, Container} from "native-base";
 import I18n from '../locales/i18n'
 
-export default class BlogFragment extends Component {
+export default class BlogScreen extends Component {
 
     render() {
         return (

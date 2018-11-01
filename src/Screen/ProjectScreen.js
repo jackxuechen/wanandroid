@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View,TouchableOpacity,FlatList} from 'react-native';
 
-export default class ProjectFragment extends React.PureComponent {
+export default class ProjectScreen extends React.PureComponent {
     state = {selected: (new Map(): Map<string, boolean>)};
 
     _keyExtractor = (item, index) => item.id;
