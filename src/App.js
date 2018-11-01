@@ -1,32 +1,25 @@
 import React, {Component} from 'react';
-import {Body, Button, Container, Content, Footer, FooterTab, Header, Left, Right, Text, Title} from 'native-base';
+import {Button, Container, Footer, FooterTab, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import I18n from './locales/i18n'
+import BlogFragment from "./fragment/BlogFragment";
 
 export default class App extends Component {
 
-    titleArr = [I18n.t('blog'), I18n.t('project'), I18n.t('official_account'), I18n.t('knowledge_hierarchy'), I18n.t('personal_center')]
+    // titleArr = [I18n.t('blog'), I18n.t('project'), I18n.t('official_account'), I18n.t('knowledge_hierarchy'), I18n.t('personal_center')]
 
     constructor(props) {
         super(props)
         this.state = {
             footer: [true, false, false, false, false],
-            title: this.titleArr[0],
+            index:0,
         }
     }
-
 
     render() {
         return (
             <Container>
-                <Header>
-                    <Left/>
-                    <Body>
-                    <Title>{this.state.title}</Title>
-                    </Body>
-                    <Right/>
-                </Header>
-                <Content/>
+                <BlogFragment/>
                 <Footer>
                     <FooterTab>
                         <Button
@@ -75,7 +68,6 @@ export default class App extends Component {
         );
     }
 
-
     switchFooter(number) {
         this.state.footer.forEach((value, index, array) => {
             if (number === index) {
@@ -87,7 +79,6 @@ export default class App extends Component {
         this.setState(() => {
             return {
                 footer: this.state.footer,
-                title: this.titleArr[number]
             }
         })
     }
