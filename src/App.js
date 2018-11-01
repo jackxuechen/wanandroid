@@ -1,85 +1,30 @@
-import React, {Component} from 'react';
-import {Button, Container, Footer, FooterTab, Text} from 'native-base';
+import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import I18n from './locales/i18n'
+import {createBottomTabNavigator} from 'react-navigation';
 import BlogScreen from "./Screen/BlogScreen";
+import ProjectScreen from "./Screen/ProjectScreen";
 
-export default class App extends Component {
-
-    // titleArr = [I18n.t('blog'), I18n.t('project'), I18n.t('official_account'), I18n.t('knowledge_hierarchy'), I18n.t('personal_center')]
-
-    constructor(props) {
-        super(props)
-        this.state = {
-            footer: [true, false, false, false, false],
-            index:0,
-        }
+export default createBottomTabNavigator(
+    {
+        Blog: BlogScreen,
+        Project: ProjectScreen,
+    },
+    {
+        navigationOptions: ({navigation}) => ({
+            tabBarIcon: ({focused, horizontal, tintColor}) => {
+                const {routeName} = navigation.state;
+                let iconName;
+                if (routeName === 'Blog') {
+                    iconName = `ios-bug${focused ? '' : ''}`;
+                } else if (routeName === 'Project') {
+                    iconName = `ios-bug${focused ? '' : ''}`;
+                }
+                return <Icon name={iconName} size={horizontal ? 20 : 25} color={tintColor}/>;
+            },
+        }),
+        tabBarOptions: {
+            activeTintColor: 'tomato',
+            inactiveTintColor: 'gray',
+        },
     }
-
-    render() {
-        return (
-            <Container>
-                <BlogScreen/>
-                <Footer>
-                    <FooterTab>
-                        <Button
-                            onPress={() => {
-                                this.switchFooter(0)
-                            }}
-                            vertical active={this.state.footer[0]}>
-                            <Icon name="md-musical-notes" size={30} color="#4F8EF7"/>
-                            <Text>{I18n.t('blog')}</Text>
-                        </Button>
-                        <Button
-                            onPress={() => {
-                                this.switchFooter(1)
-                            }}
-                            vertical active={this.state.footer[1]}>
-                            <Icon name="md-musical-notes" size={30} color="#4F8EF7"/>
-                            <Text>{I18n.t('project')}</Text>
-                        </Button>
-                        <Button
-                            onPress={() => {
-                                this.switchFooter(2)
-                            }}
-                            vertical active={this.state.footer[2]}>
-                            <Icon name="md-musical-notes" size={30} color="#4F8EF7"/>
-                            <Text>{I18n.t('official_account')}</Text>
-                        </Button>
-                        <Button
-                            onPress={() => {
-                                this.switchFooter(3)
-                            }}
-                            vertical active={this.state.footer[3]}>
-                            <Icon name="md-musical-notes" size={30} color="#4F8EF7"/>
-                            <Text>{I18n.t('knowledge_hierarchy')}</Text>
-                        </Button>
-                        <Button
-                            onPress={() => {
-                                this.switchFooter(4)
-                            }}
-                            vertical active={this.state.footer[4]}>
-                            <Icon name="md-musical-notes" size={30} color="#4F8EF7"/>
-                            <Text>{I18n.t('personal_center')}</Text>
-                        </Button>
-                    </FooterTab>
-                </Footer>
-            </Container>
-        );
-    }
-
-    switchFooter(number) {
-        this.state.footer.forEach((value, index, array) => {
-            if (number === index) {
-                array[index] = true
-            } else {
-                array[index] = false
-            }
-        })
-        this.setState(() => {
-            return {
-                footer: this.state.footer,
-            }
-        })
-    }
-}
+);
