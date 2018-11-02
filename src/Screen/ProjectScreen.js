@@ -1,58 +1,51 @@
-import React from 'react';
-import {Text, View,TouchableOpacity,FlatList} from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
-export default class ProjectScreen extends React.PureComponent {
-    state = {selected: (new Map(): Map<string, boolean>)};
+import Swiper from 'react-native-swiper';
 
-    _keyExtractor = (item, index) => item.id;
 
-    _onPressItem = (id: string) => {
-        // updater functions are preferred for transactional updates
-        this.setState((state) => {
-            // copy the map rather than modifying state.
-            const selected = new Map(state.selected);
-            selected.set(id, !selected.get(id)); // toggle
-            return {selected};
-        });
-    };
-
-    _renderItem = ({item}) => (
-        <MyListItem
-            id={item.id}
-            onPressItem={this._onPressItem}
-            selected={!!this.state.selected.get(item.id)}
-            title={item.title}
-        />
-    );
+export default class ProjectScreen extends Component {
 
     render() {
         return (
-            <FlatList
-                data={this.props.data}
-                extraData={this.state}
-                keyExtractor={this._keyExtractor}
-                renderItem={this._renderItem}
-            />
-        );
-    }
-
-}
-
-class MyListItem extends React.PureComponent {
-    _onPress = () => {
-        this.props.onPressItem(this.props.id);
-    };
-
-    render() {
-        const textColor = this.props.selected ? "red" : "black";
-        return (
-            <TouchableOpacity onPress={this._onPress}>
-                <View>
-                    <Text style={{ color: textColor }}>
-                        {this.props.title}
-                    </Text>
+            <Swiper style={styles.wrapper} showsButtons={true}>
+                <View style={styles.slide1}>
+                    <Text style={styles.text}>Hello Swiper</Text>
                 </View>
-            </TouchableOpacity>
+                <View style={styles.slide2}>
+                    <Text style={styles.text}>Beautiful</Text>
+                </View>
+                <View style={styles.slide3}>
+                    <Text style={styles.text}>And simple</Text>
+                </View>
+            </Swiper>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    wrapper: {},
+    slide1: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#9DD6EB',
+    },
+    slide2: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#97CAE5',
+    },
+    slide3: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#92BBD9',
+    },
+    text: {
+        color: '#fff',
+        fontSize: 30,
+        fontWeight: 'bold',
+    }
+})
