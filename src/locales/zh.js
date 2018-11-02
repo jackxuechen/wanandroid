@@ -5,5 +5,6 @@ export default {
     knowledge_hierarchy: '体系',
     personal_center: '我的',
     fetch_error: '加载出错啦...',
-    author:'作者:'
+    author:'作者:',
+    
 }

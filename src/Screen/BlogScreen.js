@@ -156,6 +156,7 @@ class MyListItem extends React.PureComponent {
                         <Icon name='ios-time' size={20} />
                         <Text style={{ marginLeft: 4 }}>{this.props.item.niceDate}</Text>
                         <Text style={{ marginLeft: 4 }}>{I18n.t('author')}[{this.props.item.author}]</Text>
+                        <Text style={{ marginLeft: 4 }}>{I18n.t('author')}[{this.props.item.author}]</Text>
                     </View>
                 </Card>
             </TouchableOpacity>
