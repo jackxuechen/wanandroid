@@ -4,5 +4,6 @@ export default {
     official_account: '公众号',
     knowledge_hierarchy: '体系',
     personal_center: '我的',
-    fetch_error: '加载出错啦...'
+    fetch_error: '加载出错啦...',
+    author:'作者:'
 }

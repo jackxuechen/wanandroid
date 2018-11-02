@@ -7,12 +7,12 @@ export function apiGet(request) {
         fetch(url)
             .then((Response) => Response.json())
             .then(responseJson => {
-                console.info('response:\n', responseJson)
+                console.info('response:\n\t', responseJson)
                 console.info('---------------------------------------------')
                 resolve(responseJson)
             })
             .catch(error => {
-                console.error('error:\n', error.toString())
+                console.error('error:\n\t', error.toString())
                 console.info('---------------------------------------------')
                 reject(error)
             })

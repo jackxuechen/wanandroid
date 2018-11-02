@@ -1,7 +1,12 @@
 import React from 'react';
-import {ActivityIndicator, FlatList, Dimensions,Text, TouchableOpacity, View, Image, StyleSheet} from 'react-native';
-import {apiGet} from "../api/ApiUrl";
+import { FlatList, Dimensions, Text, TouchableOpacity, View, Image, } from 'react-native';
+import { apiGet } from "../api/ApiUrl";
 import Swiper from 'react-native-swiper'
+import { color } from '../values/color';
+import { Card, CardItem } from 'native-base';
+import Icon from 'react-native-vector-icons/Ionicons';
+import I18n from '../locales/i18n'
+
 
 export default class BlogScreen extends React.PureComponent {
     index
@@ -10,7 +15,7 @@ export default class BlogScreen extends React.PureComponent {
         super(props)
         this.index = 0
         this.state = {
-            selected: (new Map(): Map<string, boolean>),
+            selected: new Map(),
             refreshing: true,
             listData: null,
             banner: null
@@ -50,11 +55,11 @@ export default class BlogScreen extends React.PureComponent {
     fetchListData(index) {
         apiGet(`article/list/${index}/json`)
             .then(response => {
-                    this.setState(Object.assign({}, this.state,
-                        {
-                            listData: this.state.listData.concat(response.data.datas)
-                        }))
-                }
+                this.setState(Object.assign({}, this.state,
+                    {
+                        listData: this.state.listData.concat(response.data.datas)
+                    }))
+            }
             )
             .catch(error => {
                 this.setState(Object.assign({}, this.state, {
@@ -70,15 +75,15 @@ export default class BlogScreen extends React.PureComponent {
                 <FlatList
                     ListHeaderComponent={
                         this.state.banner != null ?
-                            <View style={{height: 220}}>
+                            <View style={{height:220}}>
                                 <Swiper style={styles.wrapper} autoplay={true}>
                                     {
                                         this.state.banner.map(
-                                            (item,key) => {
+                                            (item, key) => {
                                                 return (
                                                     <View style={styles.slide1}>
-                                                        <Image source={{uri: item.imagePath}}
-                                                               style={{width:Dimensions.get('window').width,height: 200}}/>
+                                                        <Image source={{ uri: item.imagePath }}
+                                                            style={{ width: Dimensions.get('window').width, height: 200 }} />
                                                         <Text style={styles.text}>{item.title}</Text>
                                                     </View>
                                                 )
@@ -86,7 +91,7 @@ export default class BlogScreen extends React.PureComponent {
                                         )
                                     }
                                 </Swiper>
-                            </View> : <View/>
+                            </View> : <View />
 
                     }
                     refreshing={this.state.refreshing}
@@ -109,17 +114,15 @@ export default class BlogScreen extends React.PureComponent {
 
     _keyExtractor = (item, index) => item.id;
 
-    _onPressItem = (id: string) => {
-        // updater functions are preferred for transactional updates
+    _onPressItem = (id) => {
         this.setState((state) => {
-            // copy the map rather than modifying state.
             const selected = new Map(state.selected);
-            selected.set(id, !selected.get(id)); // toggle
-            return {selected};
+            selected.set(id, !selected.get(id));
+            return { selected };
         });
     };
 
-    _renderItem = ({item}) => (
+    _renderItem = ({ item }) => (
         <MyListItem
             id={item.id}
             onPressItem={this._onPressItem}
@@ -133,20 +136,28 @@ export default class BlogScreen extends React.PureComponent {
 class MyListItem extends React.PureComponent {
 
     render() {
-        const textColor = this.props.selected ? "red" : "black";
+        const textColor = this.props.selected ? color.color_888888 : color.color_333333;
         return (
             <TouchableOpacity onPress={() => {
                 this.props.onPressItem(this.props.id);
             }}>
-                <View>
-                    <Text style={{color: textColor, fontSize: 20}}>
+                <Card style={{padding:8}}>
+                    <Text style={{ color: textColor, fontSize: 16,marginBottom: 4 }}>
                         {this.props.item.title}
                     </Text>
-                    <Text>
-                        {this.props.item.desc}
-                    </Text>
-                    <View style={{backgroundColor: 'black', height: 1}}/>
-                </View>
+                    {
+                        this.props.item.desc !== null ?
+                            <Text style={{ color: color.color_888888, fontSize: 14 }}>
+                                {this.props.item.desc}
+                            </Text>
+                            : <Text />
+                    }
+                    <View style={{ flex: 1, flexDirection: "row", alignItems: "center" ,marginTop:4}}>
+                        <Icon name='ios-time' size={20} />
+                        <Text style={{ marginLeft: 4 }}>{this.props.item.niceDate}</Text>
+                        <Text style={{ marginLeft: 4 }}>{I18n.t('author')}[{this.props.item.author}]</Text>
+                    </View>
+                </Card>
             </TouchableOpacity>
         );
     }
@@ -158,11 +169,15 @@ const styles = {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#9DD6EB',
     },
     text: {
+        flex:1,
         color: '#fff',
         fontSize: 14,
         fontWeight: 'bold',
+        height:20,
+        width:Dimensions.get('window').width,
+        backgroundColor: color.color_5b71f9,
+        textAlign:'center'
     }
 }
