@@ -18,8 +18,6 @@ export default class BlogScreen extends React.PureComponent {
             listData: null,
             banner: null
         }
-
-
     }
 
 
@@ -81,9 +79,13 @@ export default class BlogScreen extends React.PureComponent {
                                             (item, key) => {
                                                 return (
                                                     <View style={styles.slide1}>
-                                                        <Image source={{ uri: item.imagePath }}
-                                                            style={{ width: Dimensions.get('window').width, height: 200 }} />
-                                                        <Text style={styles.text}>{item.title}</Text>
+                                                        <TouchableOpacity onPress={() => {
+                                                            this.props.navigation.navigate('Web', { url: item.url })
+                                                        }}>
+                                                            <Image source={{ uri: item.imagePath }}
+                                                                style={{ width: Dimensions.get('window').width, height: 200 }} />
+                                                            <Text style={styles.text}>{item.title}</Text>
+                                                        </TouchableOpacity>
                                                     </View>
                                                 )
                                             }
@@ -119,7 +121,7 @@ export default class BlogScreen extends React.PureComponent {
             selected.set(id, !selected.get(id));
             return { selected };
         });
-        this.props.navigation.navigate('Web',{url:link});
+        this.props.navigation.navigate('Web', { url: link })
     };
 
     _renderItem = ({ item }) => (
