@@ -7,10 +7,8 @@ import { Card, CardItem } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import I18n from '../locales/i18n'
 
-
 export default class BlogScreen extends React.PureComponent {
     index
-
     constructor(props) {
         super(props)
         this.index = 0
@@ -70,12 +68,13 @@ export default class BlogScreen extends React.PureComponent {
 
 
     render() {
+
         return (
             <View>
                 <FlatList
                     ListHeaderComponent={
                         this.state.banner != null ?
-                            <View style={{height:220}}>
+                            <View style={{ height: 220 }}>
                                 <Swiper style={styles.wrapper} autoplay={true}>
                                     {
                                         this.state.banner.map(
@@ -114,12 +113,13 @@ export default class BlogScreen extends React.PureComponent {
 
     _keyExtractor = (item, index) => item.id;
 
-    _onPressItem = (id) => {
+    _onPressItem = (id, link) => {
         this.setState((state) => {
             const selected = new Map(state.selected);
             selected.set(id, !selected.get(id));
             return { selected };
         });
+        this.props.navigation.navigate('Web',{url:link});
     };
 
     _renderItem = ({ item }) => (
@@ -139,10 +139,10 @@ class MyListItem extends React.PureComponent {
         const textColor = this.props.selected ? color.color_888888 : color.color_333333;
         return (
             <TouchableOpacity onPress={() => {
-                this.props.onPressItem(this.props.id);
+                this.props.onPressItem(this.props.id, this.props.item.link);
             }}>
-                <Card style={{padding:8}}>
-                    <Text style={{ color: textColor, fontSize: 16,marginBottom: 4 }}>
+                <Card style={{ padding: 8 }}>
+                    <Text style={{ color: textColor, fontSize: 16, marginBottom: 4 }}>
                         {this.props.item.title}
                     </Text>
                     {
@@ -152,7 +152,7 @@ class MyListItem extends React.PureComponent {
                             </Text>
                             : <Text />
                     }
-                    <View style={{ flex: 1, flexDirection: "row", alignItems: "center" ,marginTop:4}}>
+                    <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 4 }}>
                         <Icon name='ios-time' size={20} />
                         <Text style={{ marginLeft: 4 }}>{this.props.item.niceDate}</Text>
                         <Text style={{ marginLeft: 4 }}>{I18n.t('author')}[{this.props.item.author}]</Text>
@@ -172,13 +172,13 @@ const styles = {
         alignItems: 'center',
     },
     text: {
-        flex:1,
+        flex: 1,
         color: '#fff',
         fontSize: 14,
         fontWeight: 'bold',
-        height:20,
-        width:Dimensions.get('window').width,
+        height: 20,
+        width: Dimensions.get('window').width,
         backgroundColor: color.color_5b71f9,
-        textAlign:'center'
+        textAlign: 'center'
     }
 }

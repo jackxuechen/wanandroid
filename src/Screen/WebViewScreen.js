@@ -5,8 +5,7 @@ export default class WebViewScreen extends Component {
     render() {
         return (
             <WebView
-                source={{ uri: 'http://www.baidu.com' }}
-                style={{ marginTop: 20 }}
+                source={{ uri: this.props.navigation.getParam('url','')}}
             />
         );
     }

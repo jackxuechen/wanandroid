@@ -3,8 +3,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from 'react-navigation';
 import BlogScreen from "./BlogScreen";
 import ProjectScreen from "./ProjectScreen";
+import { View, Button } from 'react-native'
 
-const BottomTabNavigator = createBottomTabNavigator(
+export const BottomTabNavigator = createBottomTabNavigator(
     {
         Blog: BlogScreen,
         Project: ProjectScreen,
@@ -26,11 +27,6 @@ const BottomTabNavigator = createBottomTabNavigator(
             activeTintColor: 'tomato',
             inactiveTintColor: 'gray',
         },
-    }
+    },
 );
 
-export default class MainScreen extends React.Component {
-    render() {
-        return <BottomTabNavigator />;
-    }
-}
