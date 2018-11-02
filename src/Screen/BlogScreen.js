@@ -20,7 +20,6 @@ export default class BlogScreen extends React.PureComponent {
         }
     }
 
-
     componentDidMount() {
         return this.fetchBannerAndListData()
     }

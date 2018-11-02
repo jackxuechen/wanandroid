@@ -1,51 +1,68 @@
-import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-
-import Swiper from 'react-native-swiper';
-
+import React, { Component } from 'react';
+import { Container, Header, Tab, Tabs, ScrollableTab } from 'native-base';
+import { Text, ActivityIndicator, Button } from 'react-native'
+import { apiGet } from '../api/ApiUrl';
+import I18n from '../locales/i18n';
+import { color } from '../values/color';
 
 export default class ProjectScreen extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            isLoading: true,
+            tabTitleArr: []
+        }
+    }
+
+
+    componentDidMount() {
+        this.requsetTabTitle()
+    }
+    requsetTabTitle() {
+        apiGet('project/tree/json')
+            .then(response => {
+                this.setState({
+                    isLoading: false,
+                    tabTitleArr: response.data
+                })
+            })
+            .catch(reason => {
+                this.state = {
+                    isLoading: false,
+                    tabTitleArr: []
+                }
+            })
+    }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <ActivityIndicator size='large' color={color.color_5b71f9} style={{ backgroundColor: color.color_ffffff }} />
+            )
+        }
+        if (this.state.tabTitleArr.size == 0) {
+            return (
+                <Button title={I18n.t('fetch_error')}
+                    onPress={() => {
+                        this.requsetTabTitle()
+                    }} />
+            )
+        }
         return (
-            <Swiper style={styles.wrapper} showsButtons={true}>
-                <View style={styles.slide1}>
-                    <Text style={styles.text}>Hello Swiper</Text>
-                </View>
-                <View style={styles.slide2}>
-                    <Text style={styles.text}>Beautiful</Text>
-                </View>
-                <View style={styles.slide3}>
-                    <Text style={styles.text}>And simple</Text>
-                </View>
-            </Swiper>
+            <Container>
+                <Header hasTabs style={{ height: 10 }} />
+                <Tabs renderTabBar={() => <ScrollableTab />}>
+                    {
+                        this.state.tabTitleArr.map((item, key) => {
+                            return (
+                                <Tab heading={item.name}>
+                                    <Text>{item.name}</Text>
+                                </Tab>
+                            )
+                        })
+                    }
+                </Tabs>
+            </Container>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    wrapper: {},
-    slide1: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#9DD6EB',
-    },
-    slide2: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#97CAE5',
-    },
-    slide3: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#92BBD9',
-    },
-    text: {
-        color: '#fff',
-        fontSize: 30,
-        fontWeight: 'bold',
-    }
-})
