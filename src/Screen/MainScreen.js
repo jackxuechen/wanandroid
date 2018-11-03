@@ -7,6 +7,7 @@ import ProjectScreen from "./ProjectScreen";
 import I18n from '../locales/i18n'
 import { color } from '../values/color'
 import OfficialAccountScreen from './OfficialAccountScreen';
+import PersonalCenterScreen from './PersonalCenterScreen';
 
 
 export default MainScreen = createBottomTabNavigator(
@@ -20,6 +21,9 @@ export default MainScreen = createBottomTabNavigator(
         },
         OfficialAccount: {
             screen: OfficialAccountScreen,
+        },
+        PersonalCenter: {
+            screen: PersonalCenterScreen,
         }
     },
     {
@@ -34,6 +38,8 @@ export default MainScreen = createBottomTabNavigator(
                     barLable = I18n.t('project')
                 } else if (routeName === 'OfficialAccount') {
                     barLable = I18n.t('official_account')
+                } else if (routeName === 'PersonalCenter') {
+                    barLable = I18n.t('personal_center')
                 }
                 return (<Text style={{ textAlign: 'center' }}>{barLable}</Text>)
             },
@@ -44,7 +50,9 @@ export default MainScreen = createBottomTabNavigator(
                     iconName = `ios-bug${focused ? '' : ''}`;
                 } else if (routeName === 'Project') {
                     iconName = `ios-bug${focused ? '' : ''}`;
-                }else if (routeName === 'OfficialAccount') {
+                } else if (routeName === 'OfficialAccount') {
+                    iconName = `ios-bug${focused ? '' : ''}`;
+                } else if (routeName === 'PersonalCenter') {
                     iconName = `ios-bug${focused ? '' : ''}`;
                 }
                 return <Icon name={iconName} size={horizontal ? 20 : 25} color={tintColor} />;
