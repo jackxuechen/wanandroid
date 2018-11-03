@@ -4,6 +4,7 @@ import { Text, ActivityIndicator, Button } from 'react-native'
 import { apiGet } from '../api/ApiUrl';
 import I18n from '../locales/i18n';
 import { color } from '../values/color';
+import ContentList from '../component/ContentList';
 
 export default class ProjectScreen extends Component {
     constructor(props) {
@@ -56,7 +57,10 @@ export default class ProjectScreen extends Component {
                         this.state.tabTitleArr.map((item, key) => {
                             return (
                                 <Tab heading={item.name}>
-                                    <Text>{item.name}</Text>
+                                    <ContentList
+                                        url={`project/list/index/json?cid=${item.id}`}
+                                        index={1}
+                                    />
                                 </Tab>
                             )
                         })

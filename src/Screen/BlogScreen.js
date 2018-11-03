@@ -65,49 +65,46 @@ export default class BlogScreen extends React.PureComponent {
 
 
     render() {
-
         return (
-            <View>
-                <FlatList
-                    ListHeaderComponent={
-                        this.state.banner != null ?
-                            <View style={{ height: 220 }}>
-                                <Swiper style={styles.wrapper} autoplay={true}>
-                                    {
-                                        this.state.banner.map(
-                                            (item, key) => {
-                                                return (
-                                                    <View style={styles.slide1}>
-                                                        <TouchableOpacity onPress={() => {
-                                                            this.props.navigation.navigate('Web', { url: item.url })
-                                                        }}>
-                                                            <Image source={{ uri: item.imagePath }}
-                                                                style={{ width: Dimensions.get('window').width, height: 200 }} />
-                                                            <Text style={styles.text}>{item.title}</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                )
-                                            }
-                                        )
-                                    }
-                                </Swiper>
-                            </View> : <View />
+            <FlatList
+                ListHeaderComponent={
+                    this.state.banner != null ?
+                        <View style={{ height: 220 }}>
+                            <Swiper style={styles.wrapper} autoplay={true}>
+                                {
+                                    this.state.banner.map(
+                                        (item, key) => {
+                                            return (
+                                                <View style={styles.slide1}>
+                                                    <TouchableOpacity onPress={() => {
+                                                        this.props.navigation.navigate('Web', { url: item.url })
+                                                    }}>
+                                                        <Image source={{ uri: item.imagePath }}
+                                                            style={{ width: Dimensions.get('window').width, height: 200 }} />
+                                                        <Text style={styles.text}>{item.title}</Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            )
+                                        }
+                                    )
+                                }
+                            </Swiper>
+                        </View> : <View />
 
-                    }
-                    refreshing={this.state.refreshing}
-                    onRefresh={() => {
-                        this.fetchBannerAndListData()
-                    }}
-                    onEndReached={() => {
-                        this.fetchListData(++this.index)
-                    }}
-                    onEndReachedThreshold={1}
-                    data={this.state.listData}
-                    extraData={this.state}
-                    keyExtractor={this._keyExtractor}
-                    renderItem={this._renderItem}
-                />
-            </View>
+                }
+                refreshing={this.state.refreshing}
+                onRefresh={() => {
+                    this.fetchBannerAndListData()
+                }}
+                onEndReached={() => {
+                    this.fetchListData(++this.index)
+                }}
+                onEndReachedThreshold={1}
+                data={this.state.listData}
+                extraData={this.state}
+                keyExtractor={this._keyExtractor}
+                renderItem={this._renderItem}
+            />
         );
     }
 
@@ -156,7 +153,6 @@ class BlogListItem extends React.PureComponent {
                     <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 4 }}>
                         <Icon name='ios-time' size={20} />
                         <Text style={{ marginLeft: 4 }}>{this.props.item.niceDate}</Text>
-                        <Text style={{ marginLeft: 4 }}>{I18n.t('author')}[{this.props.item.author}]</Text>
                         <Text style={{ marginLeft: 4 }}>{I18n.t('author')}[{this.props.item.author}]</Text>
                     </View>
                 </Card>
