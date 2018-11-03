@@ -124,7 +124,7 @@ export default class BlogScreen extends React.PureComponent {
     };
 
     _renderItem = ({ item }) => (
-        <MyListItem
+        <BlogListItem
             id={item.id}
             onPressItem={this._onPressItem}
             selected={!!this.state.selected.get(item.id)}
@@ -134,7 +134,7 @@ export default class BlogScreen extends React.PureComponent {
 
 }
 
-class MyListItem extends React.PureComponent {
+class BlogListItem extends React.PureComponent {
 
     render() {
         const textColor = this.props.selected ? color.color_888888 : color.color_333333;
