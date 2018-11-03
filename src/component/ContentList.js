@@ -5,8 +5,9 @@ import { color } from '../values/color';
 import { Card } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import I18n from '../locales/i18n'
+import { withNavigation } from 'react-navigation';
 
-export default class ContentList extends React.PureComponent {
+class ContentList extends React.PureComponent {
 
     constructor(props) {
         super(props)
@@ -29,7 +30,7 @@ export default class ContentList extends React.PureComponent {
             .then(response => {
                 this.setState(Object.assign({}, this.state,
                     {
-                        refreshing:false,
+                        refreshing: false,
                         listData: this.state.listData.concat(response.data.datas)
                     }))
             }
@@ -44,20 +45,20 @@ export default class ContentList extends React.PureComponent {
 
     render() {
         return (
-                <FlatList
-                    refreshing={this.state.refreshing}
-                    onRefresh={() => {
-                        this.fetchListData(this.props.index)
-                    }}
-                    onEndReached={() => {
-                        this.fetchListData(++this.index)
-                    }}
-                    onEndReachedThreshold={1}
-                    data={this.state.listData}
-                    extraData={this.state}
-                    keyExtractor={this._keyExtractor}
-                    renderItem={this._renderItem}
-                />
+            <FlatList
+                refreshing={this.state.refreshing}
+                onRefresh={() => {
+                    this.fetchListData(this.props.index)
+                }}
+                onEndReached={() => {
+                    this.fetchListData(++this.index)
+                }}
+                onEndReachedThreshold={1}
+                data={this.state.listData}
+                extraData={this.state}
+                keyExtractor={this._keyExtractor}
+                renderItem={this._renderItem}
+            />
         );
     }
 
@@ -113,3 +114,4 @@ class BlogListItem extends React.PureComponent {
         );
     }
 }
+export default withNavigation(ContentList);
