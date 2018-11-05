@@ -1,7 +1,6 @@
 import React from 'react';
 import { createDrawerNavigator, DrawerItems, SafeAreaView, } from 'react-navigation';
 import { Text, StyleSheet, ScrollView, View,TouchableOpacity } from 'react-native'
-import WebViewScreen from './Screen/WebViewScreen';
 import MainScreen from './Screen/MainScreen';
 import { color } from './values/color';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -12,9 +11,6 @@ const RootStack = createDrawerNavigator(
     {
         Main: {
             screen: MainScreen
-        },
-        Web: {
-            screen: WebViewScreen,
         },
     },
     {
