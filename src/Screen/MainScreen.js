@@ -47,13 +47,13 @@ export default MainScreen = createBottomTabNavigator(
                 const { routeName } = navigation.state;
                 let iconName;
                 if (routeName === 'Blog') {
-                    iconName = `ios-bug${focused ? '' : ''}`;
+                    iconName = `ios-home${focused ? '' : ''}`;
                 } else if (routeName === 'Project') {
-                    iconName = `ios-bug${focused ? '' : ''}`;
+                    iconName = `ios-paper${focused ? '' : ''}`;
                 } else if (routeName === 'OfficialAccount') {
-                    iconName = `ios-bug${focused ? '' : ''}`;
+                    iconName = `ios-chatbubbles${focused ? '' : ''}`;
                 } else if (routeName === 'PersonalCenter') {
-                    iconName = `ios-bug${focused ? '' : ''}`;
+                    iconName = `md-person${focused ? '' : ''}`;
                 }
                 return <Icon name={iconName} size={horizontal ? 20 : 25} color={tintColor} />;
             },
