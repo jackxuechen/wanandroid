@@ -1,6 +1,6 @@
 import React from 'react';
 import { createDrawerNavigator, DrawerItems, SafeAreaView, } from 'react-navigation';
-import { Text, StyleSheet, ScrollView, View,TouchableOpacity } from 'react-native'
+import { Text, StyleSheet, ScrollView, View, TouchableOpacity } from 'react-native'
 import MainScreen from './Screen/MainScreen';
 import { color } from './values/color';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -14,14 +14,14 @@ const RootStack = createDrawerNavigator(
         },
     },
     {
-        drawerWidth: 200,
+        drawerWidth: 240,
         initialRouteName: 'Main',
         contentComponent:
             (props) => {
                 return (
                     <ScrollView>
                         <TouchableOpacity onPress={() => {
-                            props.navigation.navigate('Web', { url: 'http://www.baidu.com' })
+                            props.navigation.navigate('LoginOrOut')
                         }}>
                             <View style={{
                                 flex: 1,
@@ -34,6 +34,7 @@ const RootStack = createDrawerNavigator(
                                 <Icon
                                     style={{ marginTop: 16, }}
                                     name='md-person' size={50}
+                                    color={color.color_ffffff}
                                 />
                                 <Text style={{
                                     color: color.color_ffffff, marginBottom: 16,
