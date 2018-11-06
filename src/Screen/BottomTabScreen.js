@@ -7,7 +7,7 @@ import ProjectScreen from "./ProjectScreen";
 import I18n from '../locales/i18n'
 import { color } from '../values/color'
 import OfficialAccountScreen from './OfficialAccountScreen';
-import PersonalCenterScreen from './PersonalCenterScreen';
+
 
 
 export default BottomTabScreen = createBottomTabNavigator(
@@ -21,9 +21,6 @@ export default BottomTabScreen = createBottomTabNavigator(
         },
         OfficialAccount: {
             screen: OfficialAccountScreen,
-        },
-        PersonalCenter: {
-            screen: PersonalCenterScreen,
         }
     },
     {

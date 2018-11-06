@@ -32,12 +32,24 @@ export default class LoginOrOutScreen extends React.Component {
                 }
             })
             .catch((reason) => {
-                L.e(reason)
                 Alert.alert(I18n.t('alert'), I18n.t('tip_retry_later'))
             })
     }
     register(username, password, check_password) {
-
+        apiPost('user/register', { username: username, password: password, repassword: check_password })
+            .then((res) => {
+                if (res !== null && res.errorCode == 0) {
+                    AppManager.loginState = true
+                    AppManager.username = res.data.username
+                    AsyncStorage.setItem('username', res.data.username)
+                    this.props.navigation.goBack()
+                } else {
+                    Alert.alert(I18n.t('alert'), res.errorMsg)
+                }
+            })
+            .catch((reason) => {
+                Alert.alert(I18n.t('alert'), I18n.t('tip_retry_later'))
+            })
     }
     render() {
         return (
