@@ -7,6 +7,7 @@ import { color } from './values/color';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AppManager } from './util/AppManager'
 import I18n from './locales/i18n'
+import { Card } from 'native-base';
 
 
 
@@ -78,7 +79,21 @@ const RootStack = createDrawerNavigator(
 
                             </View>
                         </TouchableOpacity>
-
+                        <TouchableOpacity
+                            onPress={() => {
+                                if (AppManager.loginState) {
+                                    props.navigation.navigate('Collect')
+                                } else {
+                                    props.navigation.navigate('LoginOrOut')
+                                }
+                            }}
+                        >
+                            <Card >
+                                <View style={{ height: 40, flexDirection: 'column', justifyContent: 'center', paddingLeft: 16 }}>
+                                    <Text >{I18n.t('collect')}</Text>
+                                </View >
+                            </Card>
+                        </TouchableOpacity>
                     </ScrollView>
                 )
             }

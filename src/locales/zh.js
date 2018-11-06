@@ -22,6 +22,7 @@ export default {
     tip_alert_logout: '确定退出登录吗?',
     cancel: '取消',
     confirm: '确定',
+    collect:'收藏',
 
 
 }

@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 import WebViewScreen from './WebViewScreen'
 import BottomTabScreen from './BottomTabScreen';
 import LoginOrOutScreen from './LoginOrOutScreen';
+import CollectScreen from './CollectScreen';
 
 
 export default MainScreen = createStackNavigator(
@@ -16,6 +17,9 @@ export default MainScreen = createStackNavigator(
         },
         LoginOrOut: {
             screen: LoginOrOutScreen
+        },
+        Collect: {
+            screen: CollectScreen
         }
     },
     {
