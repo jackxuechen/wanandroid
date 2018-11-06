@@ -3,62 +3,38 @@ import L from "../util/L";
 
 export const baseUrl = 'http://www.wanandroid.com/'
 
-export function apiGet(request) {
-    return new Promise(function (resolve, reject) {
-        let url = `${baseUrl}${request}`
-        L.v('apiGet\n', 'request:\n', `\turl:${url}`)
-        fetch(url)
-            .then((Response) => Response.json())
-            .then(responseJson => {
-                L.v('response:\n\t', responseJson)
-                L.v('---------------------------------------------')
-                resolve(responseJson)
-            })
-            .catch(error => {
-                L.e('error:\n\t', error.toString())
-                L.v('---------------------------------------------')
-                reject(error)
-            })
-    });
+export async function apiGet(request) {
+    let url = `${baseUrl}${request}`
+    L.v('网络:\n', `\t请求参数:\nurl:${url}`)
+    let res = await fetch(url)
+    let resJson = await res.json()
+    L.v('网络:\n', `\t返回结果:\nres:${res.toString()}\nresJson:\n${resJson.toString()}`)
+    return resJson
 };
-export function apiPost(request, param = null) {
-    return new Promise(function (resolve, reject) {
-        let url = `${baseUrl}${request}`
-        L.v('apiGet\n', 'request:\n', `\turl:${url}`)
-        let requsetConfig = {
-            method: 'POST',
+export async function apiPost(request, param = null) {
+    let url = `${baseUrl}${request}`
+    let requsetConfig = {
+        method: 'POST',
+    }
+    if (param != null) {
+        let formData = new FormData()
+        for (key in param) {
+            formData.append(key, param[key])
         }
-
-        if (param != null) {
-            let formData = new FormData()
-            for (key in param) {
-                formData.append(key, param[key])
-            }
-            requsetConfig['body'] = formData
-        }
-        let cookie = ''
-        requsetConfig['headers'] = {
-            'Cookie': cookie
-        }
-        L.v('param:\n', `\tparam:${requsetConfig}`)
-        fetch(url, requsetConfig)
-            .then((res) => {
-                if ((res.url.indexOf('user/login') != -1 || res.url.indexOf('user/register')) != -1 &&
-                    res.headers.map.hasOwnProperty('set-cookie')) {
-                    const cookie = res.headers.map['set-cookie'][0]
-                    Storage.setItem('cookie', cookie)
-                }
-                return res.json()
-            })
-            .then(responseJson => {
-                L.v('response:\n\t', responseJson)
-                L.v('---------------------------------------------')
-                resolve(responseJson)
-            })
-            .catch(error => {
-                L.e('error:\n\t', error.toString())
-                L.v('---------------------------------------------')
-                reject(error)
-            })
-    });
+        requsetConfig['body'] = formData
+    }
+    let cookie = Storage.getItem('cookie', '')
+    requsetConfig['headers'] = {
+        'Cookie': cookie
+    }
+    L.v('网络:\n', `\t请求参数:\nurl:${url}\nparam:${requsetConfig}`)
+    let res = await fetch(url, requsetConfig)
+    if ((res.url.indexOf('user/login') != -1 || res.url.indexOf('user/register')) != -1 &&
+        res.headers.map.hasOwnProperty('set-cookie')) {
+        const cookie = res.headers.map['set-cookie'][0]
+        await Storage.setItem('cookie', cookie)
+    }
+    let resJson = await res.json()
+    L.v('网络:\n', `\t返回结果:\nres:${res.toString()}\nresJson:\n${resJson.toString()}`)
+    return resJson
 };
