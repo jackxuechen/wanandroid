@@ -17,6 +17,11 @@ export default {
     tip_username_error: '请输入用户名',
     tip_check_password_error: '请输入相同的密码',
     tip_input_password_error: '请输入密码',
-    alert:'提示',
+    alert: '提示',
+    tip_retry_later: '出错了,请稍候再试',
+    tip_alert_logout: '确定退出登录吗?',
+    cancel: '取消',
+    confirm: '确定',
+
 
 }
