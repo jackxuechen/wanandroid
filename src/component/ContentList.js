@@ -48,6 +48,7 @@ class ContentList extends React.PureComponent {
             <FlatList
                 refreshing={this.state.refreshing}
                 onRefresh={() => {
+                    this.state.listData = []
                     this.fetchListData(this.props.index)
                 }}
                 onEndReached={() => {
