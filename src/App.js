@@ -1,17 +1,54 @@
 import React from 'react';
-import { createDrawerNavigator, DrawerItems, SafeAreaView, } from 'react-navigation';
+import { createDrawerNavigator, DrawerItems, } from 'react-navigation';
 import { Text, StyleSheet, ScrollView, View, TouchableOpacity, Alert, AsyncStorage } from 'react-native'
 import { DrawerActions } from 'react-navigation-drawer';
 import MainScreen from './Screen/MainScreen';
 import { color } from './values/color';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { AppManager } from './util/AppManager'
+import { getUserName, saveUserName, saveCookie, clearAppInfo } from './util/AppManager'
 import I18n from './locales/i18n'
 import { Card } from 'native-base';
+import L from './util/L';
 
 
 
-
+export default class App extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            username: ''
+        }
+    }
+    componentDidMount() {
+        getUserName()
+            .then(result => {
+                _userInfo.username = result
+                this.setState({
+                    username: result
+                })
+            })
+    }
+    render() {
+        return <RootStack
+            onNavigationStateChange={
+                (prevState, newState, action) => {
+                    if (action.type == 'Navigation/DRAWER_OPENED') {
+                        getUserName()
+                            .then(result => {
+                                _userInfo.username = result
+                                this.setState({
+                                    username: result
+                                })
+                            })
+                    }
+                }
+            }
+        />
+    }
+}
+const _userInfo = {
+    username: ''
+}
 
 const RootStack = createDrawerNavigator(
     {
@@ -27,7 +64,7 @@ const RootStack = createDrawerNavigator(
                 return (
                     <ScrollView>
                         <TouchableOpacity onPress={() => {
-                            if (AppManager.loginState) {
+                            if (_userInfo.username) {
                                 Alert.alert(
                                     I18n.t('alert'),
                                     I18n.t('tip_alert_logout'),
@@ -36,10 +73,11 @@ const RootStack = createDrawerNavigator(
                                         {
                                             text: I18n.t('confirm'),
                                             onPress: () => {
-                                                AsyncStorage.multiRemove(['cookie', 'username'])
-                                                AppManager.loginState = false
-                                                AppManager.username = ''
-                                                props.navigation.dispatch(DrawerActions.toggleDrawer())
+                                                clearAppInfo()
+                                                .then((res) => {
+                                                    _userInfo.username = ''
+                                                    props.navigation.dispatch(DrawerActions.toggleDrawer())
+                                                })
                                             }
                                         },
                                     ],
@@ -62,12 +100,12 @@ const RootStack = createDrawerNavigator(
                                     color={color.color_ffffff}
                                 />
                                 {
-                                    AppManager.loginState ?
+                                    _userInfo.username ?
                                         <Text style={
                                             {
                                                 color: color.color_ffffff, marginBottom: 16,
                                                 marginTop: 4
-                                            }}>{AppManager.username}
+                                            }}>{_userInfo.username}
                                         </Text> :
                                         <View />
                                 }
@@ -75,13 +113,13 @@ const RootStack = createDrawerNavigator(
                                 <Text style={{
                                     color: color.color_ffffff, marginBottom: 16,
                                     marginTop: 4
-                                }}>{AppManager.loginState ? I18n.t('logout') : I18n.t('login')}</Text>
+                                }}>{_userInfo.username ? I18n.t('logout') : I18n.t('login')}</Text>
 
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
-                                if (AppManager.loginState) {
+                                if (_userInfo.username) {
                                     props.navigation.navigate('Collect')
                                 } else {
                                     props.navigation.navigate('LoginOrOut')
@@ -99,25 +137,4 @@ const RootStack = createDrawerNavigator(
             }
 
     }
-);
-
-export default class App extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            refresh: true
-        }
-    }
-    componentDidMount() {
-        AsyncStorage.multiGet(['cookie', 'username'])
-            .then((results) => {
-                if (results != null && results.length == 2) {
-                    AppManager.loginState = results[0][1] == null ? false : true
-                    AppManager.username = results[1][1] == null ? '' : results[1][1]
-                }
-            })
-    }
-    render() {
-        return <RootStack />;
-    }
-}
+)

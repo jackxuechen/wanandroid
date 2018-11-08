@@ -1,5 +1,7 @@
-import { AsyncStorage } from 'react-native'
+
 import L from "../util/L";
+import { getCookie, saveCookie } from "../util/AppManager";
+
 
 export const baseUrl = 'http://www.wanandroid.com/'
 
@@ -15,7 +17,6 @@ export async function apiRequest(request, method = 'GET', param = null) {
     try {
         let url = `${baseUrl}${request}`
         let requsetConfig = {
-            credentials: 'include',
             method: method,
         }
         if (param != null) {
@@ -25,13 +26,17 @@ export async function apiRequest(request, method = 'GET', param = null) {
             }
             requsetConfig['body'] = formData
         }
+        let cookie = await getCookie()
+        if (cookie) {
+            requsetConfig['headers'] = {
+                'Cookie': cookie
+            }
+        }
         L.v(`网络请求 url:${url}`, '请求参数 param:', requsetConfig)
         let res = await fetch(url, requsetConfig)
         L.v(`网络请求 url:${url}`, '返回结果 res:', res)
-        if ((res.url.indexOf('user/login') != -1 || res.url.indexOf('user/register')) != -1 &&
-            res.headers.map.hasOwnProperty('set-cookie')) {
-            const cookie = res.headers.map['set-cookie']
-            await AsyncStorage.setItem('cookie', cookie.toString())
+        if (res.headers.map.hasOwnProperty('set-cookie')) {
+            await saveCookie(res.headers.map['set-cookie'])
         }
         let resJson = await res.json()
         return resJson
@@ -39,3 +44,4 @@ export async function apiRequest(request, method = 'GET', param = null) {
         L.e(error)
     }
 };
+

@@ -6,7 +6,7 @@ import { Button, Form, Item, Input, Label, Toast } from 'native-base';
 import { color } from '../values/color'
 import { apiPost } from '../api/ApiUrl';
 import L from '../util/L';
-import { AppManager } from '../util/AppManager'
+import { saveUserName } from '../util/AppManager'
 
 export default class LoginOrOutScreen extends React.Component {
     check_password
@@ -23,10 +23,17 @@ export default class LoginOrOutScreen extends React.Component {
         apiPost('user/login', { username: username, password: password })
             .then((res) => {
                 if (res !== null && res.errorCode == 0) {
-                    AppManager.loginState = true
-                    AppManager.username = res.data.username
-                    AsyncStorage.setItem('username', res.data.username)
-                    this.props.navigation.goBack()
+                    saveUserName(res.data.username)
+                        .then(value => {
+                            L.v(`保存成功:${value}`)
+                            this.props.navigation.goBack()
+
+                        })
+                        .catch(error => {
+                            L.v(`保存失败:${error}`)
+                            this.props.navigation.goBack()
+
+                        })
                 } else {
                     Alert.alert(I18n.t('alert'), res.errorMsg)
                 }
@@ -39,10 +46,15 @@ export default class LoginOrOutScreen extends React.Component {
         apiPost('user/register', { username: username, password: password, repassword: check_password })
             .then((res) => {
                 if (res !== null && res.errorCode == 0) {
-                    AppManager.loginState = true
-                    AppManager.username = res.data.username
-                    AsyncStorage.setItem('username', res.data.username)
-                    this.props.navigation.goBack()
+                    saveUserName(res.data.username)
+                        .then(value => {
+                            L.v(`保存成功:${value}`)
+                            this.props.navigation.goBack()
+                        })
+                        .catch(error => {
+                            L.v(`保存失败:${error}`)
+                            this.props.navigation.goBack()
+                        })
                 } else {
                     Alert.alert(I18n.t('alert'), res.errorMsg)
                 }
