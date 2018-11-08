@@ -114,7 +114,7 @@ export default class BlogScreen extends React.PureComponent {
     _onPressItem = (id, link) => {
         this.setState((state) => {
             const selected = new Map(state.selected);
-            selected.set(id, !selected.get(id));
+            selected.set(id, true);
             return { selected };
         });
         this.props.navigation.navigate('Web', { url: link })
@@ -124,7 +124,7 @@ export default class BlogScreen extends React.PureComponent {
         <BlogListItem
             id={item.id}
             onPressItem={this._onPressItem}
-            selected={!!this.state.selected.get(item.id)}
+            selected={this.state.selected.get(item.id)}
             item={item}
         />
     );
