@@ -30,7 +30,6 @@ class ContentList extends React.PureComponent {
     fetchListData(index) {
         apiGet(this.props.url.replace('index', index))
             .then(response => {
-
                 this.setState(
                     (state) => {
                         state.refreshing = false

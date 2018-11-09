@@ -5,9 +5,9 @@ export default class L {
             console.info(message, optionalParam)
         }
     }
-    static e(message, ...optionalParam) {
-        if (this.debug == true) {
-            console.error(message, optionalParam)
-        }
-    }
+    // static e(message, ...optionalParam) {
+    //     if (this.debug == true) {
+    //         console.error(message, optionalParam)
+    //     }
+    // }
 }

@@ -39,9 +39,16 @@ export async function apiRequest(request, method = 'GET', param = null) {
             await saveCookie(res.headers.map['set-cookie'])
         }
         let resJson = await res.json()
+        if (resJson.errorCode != 0) {
+            throw resJson
+        }
         return resJson
     } catch (error) {
-        L.e(error)
+        L.v(error)
+        let result = await new Promise((resolve, reject) => {
+            reject(error)
+        })
+        return result
     }
 };
 

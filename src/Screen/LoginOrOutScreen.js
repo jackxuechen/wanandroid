@@ -76,10 +76,10 @@ export default class LoginOrOutScreen extends React.Component {
 
 
 
-                <Form style={{ width: Dimensions.get('window').width,paddingLeft:16,paddingRight:16 }} >
+                <Form style={{ width: Dimensions.get('window').width, paddingLeft: 16, paddingRight: 16 }} >
                     <Item stackedLabel>
                         <Label>{I18n.t('username')}</Label>
-                        <Input onChangeText={(text) => this.username = text} autoCapitalize='none' />
+                        <Input onChangeText={(text) => this.username = text} autoCapitalize='none' keyboardType='email-address' />
                     </Item>
                     <Item stackedLabel>
                         <Label>{I18n.t('password')}</Label>
@@ -95,7 +95,7 @@ export default class LoginOrOutScreen extends React.Component {
 
                 </Form>
 
-                <Button rounded
+                <Button full rounded
                     onPress={
                         () => {
                             if (this.username == null) {
@@ -119,10 +119,10 @@ export default class LoginOrOutScreen extends React.Component {
                         }
                     }
                     style={{
+                        height: 50,
                         marginLeft: 16, marginRight: 16, marginTop: 16
                     }}>
                     <Text style={{
-                        flex:1,
                         textAlign: 'center', color: color.color_ffffff,
                     }}>
                         {this.state.login ? I18n.t('login') : I18n.t('register')}
@@ -134,8 +134,6 @@ export default class LoginOrOutScreen extends React.Component {
                 }} >
                     <Text
                         style={{
-                            flex:1,
-                            height: 50,
                             textAlign: 'center', color: color.color_888888,
                             marginTop: 16,
                         }}>
