@@ -79,13 +79,13 @@ class ContentList extends React.PureComponent {
 
     _keyExtractor = (item, index) => item.id;
 
-    _onPressItem = (id, link) => {
+    _onPressItem = (id, link, item) => {
         this.setState((state) => {
             state.itemChanged = !state.itemChanged
             state.selected.set(id, true)
             return { state }
         });
-        this.props.navigation.navigate('Web', { url: link })
+        this.props.navigation.navigate('Web', { url: link, title: item.title })
     };
     _onPressLike = (id, like, item) => {
         this.setState((state) => {
@@ -120,7 +120,7 @@ class BlogListItem extends React.PureComponent {
         const liked = this.props.liked;
         return (
             <TouchableOpacity onPress={() => {
-                this.props.onPressItem(this.props.id, this.props.item.link);
+                this.props.onPressItem(this.props.id, this.props.item.link, this.props.item);
             }}>
                 <Card style={{ padding: 8 }}>
                     <View style={{ flex: 1, flexDirection: "row", justifyContent: 'space-between', alignItems: 'stretch', marginTop: 4 }}>

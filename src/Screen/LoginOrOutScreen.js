@@ -76,7 +76,7 @@ export default class LoginOrOutScreen extends React.Component {
 
 
 
-                <Form style={{ width: Dimensions.get('window').width, }} >
+                <Form style={{ width: Dimensions.get('window').width,paddingLeft:16,paddingRight:16 }} >
                     <Item stackedLabel>
                         <Label>{I18n.t('username')}</Label>
                         <Input onChangeText={(text) => this.username = text} autoCapitalize='none' />
@@ -122,7 +122,7 @@ export default class LoginOrOutScreen extends React.Component {
                         marginLeft: 16, marginRight: 16, marginTop: 16
                     }}>
                     <Text style={{
-                        width: Dimensions.get('window').width,
+                        flex:1,
                         textAlign: 'center', color: color.color_ffffff,
                     }}>
                         {this.state.login ? I18n.t('login') : I18n.t('register')}
@@ -134,7 +134,7 @@ export default class LoginOrOutScreen extends React.Component {
                 }} >
                     <Text
                         style={{
-                            width: Dimensions.get('window').width,
+                            flex:1,
                             height: 50,
                             textAlign: 'center', color: color.color_888888,
                             marginTop: 16,

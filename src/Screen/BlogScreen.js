@@ -93,7 +93,7 @@ export default class BlogScreen extends React.PureComponent {
                                             return (
                                                 <View style={styles.slide1}>
                                                     <TouchableOpacity onPress={() => {
-                                                        this.props.navigation.navigate('Web', { url: item.url })
+                                                        this.props.navigation.navigate('Web', { url: item.url, title: item.title })
                                                     }}>
                                                         <Image source={{ uri: item.imagePath }}
                                                             style={{ width: Dimensions.get('window').width, height: 200 }} />
@@ -127,13 +127,13 @@ export default class BlogScreen extends React.PureComponent {
 
     _keyExtractor = (item, index) => item.id;
 
-    _onPressItem = (id, link) => {
+    _onPressItem = (id, link, item) => {
         this.setState((state) => {
             state.itemChanged = !state.itemChanged
             state.selected.set(id, true)
             return { state };
         });
-        this.props.navigation.navigate('Web', { url: link })
+        this.props.navigation.navigate('Web', { url: link, title: item.title })
     };
 
     _renderItem = ({ item }) => (
@@ -163,7 +163,7 @@ class BlogListItem extends React.PureComponent {
         const liked = this.props.liked;
         return (
             <TouchableOpacity onPress={() => {
-                this.props.onPressItem(this.props.id, this.props.item.link);
+                this.props.onPressItem(this.props.id, this.props.item.link, this.props.item);
             }}>
                 <Card style={{ padding: 8 }}>
                     <View style={{ flex: 1, flexDirection: "row", justifyContent: 'space-between', alignItems: 'stretch', marginTop: 4 }}>
