@@ -66,10 +66,6 @@ export default class BlogScreen extends React.PureComponent {
                         return { state }
                     }
                 )
-                this.setState(Object.assign({}, this.state,
-                    {
-                        listData: this.state.listData.concat(response.data.datas)
-                    }))
             }
             )
             .catch(error => {
