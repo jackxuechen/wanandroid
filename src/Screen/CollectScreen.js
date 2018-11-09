@@ -11,6 +11,7 @@ export default class CollectScreen extends React.PureComponent {
                 <ContentList
                     url={'lg/collect/list/index/json'}
                     index={0}
+                    defaultLike={true}
                 />
             </Container>
 

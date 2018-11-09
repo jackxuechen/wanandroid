@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, Dimensions, Text, TouchableOpacity, View, Image, } from 'react-native';
-import { apiGet } from "../api/ApiUrl";
+import { apiGet, apiPost } from "../api/ApiUrl";
 import { color } from '../values/color';
 import { Card } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -13,7 +13,9 @@ class ContentList extends React.PureComponent {
         super(props)
         this.index = this.props.index
         this.state = {
+            itemChanged: false,
             selected: new Map(),
+            liked: new Map(),
             refreshing: true,
             listData: [],
         }
@@ -28,17 +30,28 @@ class ContentList extends React.PureComponent {
     fetchListData(index) {
         apiGet(this.props.url.replace('index', index))
             .then(response => {
-                this.setState(Object.assign({}, this.state,
-                    {
-                        refreshing: false,
-                        listData: this.state.listData.concat(response.data.datas)
-                    }))
+
+                this.setState(
+                    (state) => {
+                        state.refreshing = false
+                        state.listData = state.listData.concat(response.data.datas)
+                        if (!this.props.defaultLike) {
+                            state.listData.forEach(element => {
+                                state.liked.set(element.id, element.collect)
+                            });
+                        }
+                        return { state }
+                    }
+                )
             }
             )
             .catch(error => {
-                this.setState(Object.assign({}, this.state, {
-                    refreshing: false,
-                }))
+                this.setState(
+                    (state) => {
+                        state.refreshing = false
+                        return { state }
+                    })
+
             })
     }
 
@@ -68,18 +81,32 @@ class ContentList extends React.PureComponent {
 
     _onPressItem = (id, link) => {
         this.setState((state) => {
-            const selected = new Map(state.selected);
-            selected.set(id, true);
-            return { selected };
+            state.itemChanged = !state.itemChanged
+            state.selected.set(id, true)
+            return { state }
         });
         this.props.navigation.navigate('Web', { url: link })
     };
+    _onPressLike = (id, like, item) => {
+        this.setState((state) => {
+            state.itemChanged = !state.itemChanged
+            state.liked.set(id, like)
+            if (this.props.defaultLike) {
+                state.liked.delete(id)
+                state.selected.delete(id)
+                state.listData.splice(state.listData.indexOf(item), 1)
+            }
+            return { state }
+        })
+    }
 
     _renderItem = ({ item }) => (
         <BlogListItem
-            id={item.id}
+            id={this.props.defaultLike ? item.originId : item.id}
             onPressItem={this._onPressItem}
+            onPressLike={this._onPressLike}
             selected={this.state.selected.get(item.id)}
+            liked={this.props.defaultLike ? true : this.state.liked.get(item.id)}
             item={item}
         />
     );
@@ -90,14 +117,33 @@ class BlogListItem extends React.PureComponent {
 
     render() {
         const textColor = this.props.selected ? color.color_888888 : color.color_333333;
+        const liked = this.props.liked;
         return (
             <TouchableOpacity onPress={() => {
                 this.props.onPressItem(this.props.id, this.props.item.link);
             }}>
                 <Card style={{ padding: 8 }}>
-                    <Text style={{ color: textColor, fontSize: 16, marginBottom: 4 }}>
-                        {this.props.item.title}
-                    </Text>
+                    <View style={{ flex: 1, flexDirection: "row", justifyContent: 'space-between', alignItems: 'stretch', marginTop: 4 }}>
+                        <Text style={{ color: textColor, fontSize: 16, marginBottom: 4, maxWidth: 300 }}>
+                            {this.props.item.title}
+                        </Text>
+                        <TouchableOpacity onPress={() => {
+                            apiPost(`lg/${liked ? 'uncollect_originId' : 'collect'}/${this.props.id}/json`)
+                                .then(reslut => {
+                                    if (reslut.errorCode == 0) {
+                                        this.props.onPressLike(this.props.id, !liked, this.props.item)
+                                    }
+                                })
+                                .catch(error => {
+
+                                })
+                        }}>
+                            <Icon name={liked ? 'md-heart-dislike' : 'md-heart'} size={25}
+                                color={liked ? color.color_888888 : color.color_f03838} />
+
+                        </TouchableOpacity>
+                    </View>
+
                     {
                         this.props.item.desc !== null ?
                             <Text style={{ color: color.color_888888, fontSize: 14 }}>
