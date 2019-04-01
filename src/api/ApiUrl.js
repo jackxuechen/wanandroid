@@ -3,7 +3,7 @@ import L from "../util/L";
 import { getCookie, saveCookie } from "../util/AppManager";
 
 
-export const baseUrl = 'http://www.wanandroid.com/'
+export const baseUrl = 'https://www.wanandroid.com/'
 
 export async function apiGet(request) {
     return await apiRequest(request, 'GET')
@@ -39,9 +39,9 @@ export async function apiRequest(request, method = 'GET', param = null) {
             await saveCookie(res.headers.map['set-cookie'])
         }
         let resJson = await res.json()
-        if (resJson.errorCode != 0) {
-            throw resJson
-        }
+        // if (resJson.errorCode != 0) {
+        //     throw resJson
+        // }
         return resJson
     } catch (error) {
         L.v(error)
